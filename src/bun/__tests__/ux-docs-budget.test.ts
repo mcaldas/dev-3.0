@@ -98,6 +98,13 @@ const BUDGET_KB: Record<string, number> = {
  * ambient slot, and that a log with a 30-day history is still an overlay rather than a ninth
  * destination. The new log entry is itself a pointer to `decisions/2026/08/25/`.
  */
+/**
+ * The terminal-font picker's placement rule spends the headroom left above rather than
+ * ratcheting again: its log entry was drafted full, then folded to a two-line pointer once
+ * its record existed, ~0.2 KB. It also corrects a count the bible had wrong — "eight Settings
+ * categories" in two places while the code has had nine since `models` landed, so anyone
+ * reading it to decide whether a tenth is affordable was reading a stale number.
+ */
 const TOTAL_BUDGET_KB = 319;
 
 const entries = readdirSync(UX_DIR, { withFileTypes: true });

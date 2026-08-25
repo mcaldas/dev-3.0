@@ -17,6 +17,9 @@ else, so do not compact them by deleting it.
 - **Why:** the rows were already on disk with no reader, and the rejected alternatives — a permanent header counter, or a recency-based glyph — both put a number nobody acts on in the header of boards where agents never talk.
 - **Status:** proposed. Record: `decisions/2026/08/25/agent-traffic-readout-and-log.md`.
 
+## 2026-08-25 — A self-previewing option list earns a disclosure, not a Settings category
+- **Rule:** the terminal font picker stays in Settings → Terminal behind a collapsed "Compare all N" disclosure of preview rows; no tenth category. **Why:** `decisions/2026/08/25/terminal-font-width-is-clamped-to-the-reference.md`.
+
 ## 2026-08-23 — A guided tour points; it does not drive
 
 - **Rule:** one tour mechanism (`mainview/tour.ts` + `TourOverlay`, `data-tour-anchor`, bible §5.4b): a step rings a real control, never performs it, and progress is read from the DOM.
