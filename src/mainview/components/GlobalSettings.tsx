@@ -28,6 +28,7 @@ import { openFolderPicker } from "../folder-picker";
 import { getInitialThemeState, getWindowInjectedThemeState } from "../theme-bootstrap";
 import { getZoom, ZOOM_CHANGED_EVENT } from "../zoom";
 import { getScrollSpeed, SCROLL_SPEED_CHANGED_EVENT } from "../scroll-speed";
+import { getTerminalFontFamily, getTerminalFontSize, TERMINAL_FONT_CHANGED_EVENT } from "../terminal-font";
 import { setShortcutOverrides } from "../keymap-store";
 import { destroyAnalytics, trackEvent } from "../analytics";
 import posthogClient from "../posthog";
@@ -101,6 +102,8 @@ function GlobalSettings({
 	);
 	const [zoomLevel, setZoomLevel] = useState(() => getZoom());
 	const [scrollSpeed, setScrollSpeed] = useState(() => getScrollSpeed());
+	const [terminalFontFamily, setTerminalFontFamily] = useState(() => getTerminalFontFamily());
+	const [terminalFontSize, setTerminalFontSize] = useState(() => getTerminalFontSize());
 	const [cliInstallStatus, setCliInstallStatus] = useState<string | null>(null);
 	const [cliArmedInstance, setCliArmedInstance] = useState<string | null>(null);
 	const [agents, setAgents] = useState<CodingAgent[]>([]);
@@ -214,6 +217,18 @@ function GlobalSettings({
 				SCROLL_SPEED_CHANGED_EVENT,
 				onScrollSpeedChanged,
 			);
+	}, []);
+
+	useEffect(() => {
+		function onTerminalFontChanged(event: Event) {
+			const { family, size } = (event as CustomEvent<{ family: string; size: number }>).detail;
+			setTerminalFontFamily(family);
+			setTerminalFontSize(size);
+		}
+
+		window.addEventListener(TERMINAL_FONT_CHANGED_EVENT, onTerminalFontChanged);
+		return () =>
+			window.removeEventListener(TERMINAL_FONT_CHANGED_EVENT, onTerminalFontChanged);
 	}, []);
 
 	useEffect(() => {
@@ -741,6 +756,8 @@ function GlobalSettings({
 					<TerminalSettingsSection
 						t={t}
 						scrollSpeed={scrollSpeed}
+						terminalFontFamily={terminalFontFamily}
+						terminalFontSize={terminalFontSize}
 						newTaskTerminalBackend={newTaskTerminalBackend}
 						nativeTerminalAvailability={nativeTerminalAvailability}
 						terminalPathOpenMode={globalSettings.terminalPathOpenMode}
